@@ -519,7 +519,7 @@ def main():
     # or just provide the name of one of the public datasets available on the hub at https://huggingface.co/datasets/
     # (the dataset will be downloaded automatically from the datasets Hub
     #
-    # For CSV/JSON files, this script will use the column called 'text' or the first column. You can easily tweak this
+    # For CSV/JSON files, this script will use the column called '' or the first column. You can easily tweak this
     # behavior (see below)
     #
     # In distributed training, the load_dataset function guarantee that only one local process can concurrently
@@ -559,7 +559,7 @@ def main():
             data_files["validation"] = data_args.validation_file
             extension = data_args.validation_file.split(".")[-1]
         if extension == "txt":
-            extension = "text"
+            extension = ""
         raw_datasets = load_dataset(
             extension,
             data_files=data_files,
@@ -683,12 +683,12 @@ def main():
         model.resize_token_embeddings(len(tokenizer))
 
     # Preprocessing the datasets.
-    # First we tokenize all the texts.
+    # First we tokenize all the s.
     if training_args.do_train:
         column_names = list(raw_datasets["train"].features)
     else:
         column_names = list(raw_datasets["validation"].features)
-    text_column_name = "text" if "text" in column_names else column_names[1]
+    text_column_name = "text" if "text" in column_names else column_names[3]
 
     if data_args.max_seq_length is None:
         max_seq_length = tokenizer.model_max_length
